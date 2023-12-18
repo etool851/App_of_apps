@@ -1,6 +1,6 @@
 
-def frontendImage="https://github.com/etool851/Frontend"
-def backendImage="https://github.com/etool851/Backend"
+def frontendImage="etool851/Frontend"
+def backendImage="etool851/Backend"
 def backendDockerTag=""
 def frontendDockerTag=""
 def dockerRegistry=""
