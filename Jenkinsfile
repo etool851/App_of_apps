@@ -1,6 +1,5 @@
-
-def frontendImage="etool851/Frontend"
-def backendImage="etool851/Backend"
+def frontendImage="etool851/frontend"
+def backendImage="etool851/backend"
 def backendDockerTag=""
 def frontendDockerTag=""
 def dockerRegistry=""
@@ -14,6 +13,10 @@ pipeline {
 
     environment {
         PIP_BREAK_SYSTEM_PACKAGES = 1
+    }
+
+    tools {
+        terraform 'Terraform'
     }
     
     parameters {
@@ -58,6 +61,13 @@ pipeline {
             }
         }
         
+        stage('Selenium tests') {
+            steps {
+                sh "pip3 install -r test/selenium/requirements.txt"
+                sh "python3 -m pytest test/selenium/frontendTest.py"
+            }
+        }   
+
         stage('Run terraform') {
             steps {
                 dir('Terraform') {                
@@ -70,12 +80,7 @@ pipeline {
                 }
             }
         }
-        stage('Selenium tests') {
-            steps {
-                sh "pip3 install -r test/selenium/requirements.txt"
-                sh "python3 -m pytest test/selenium/frontendTest.py"
-            }
-        }
+
         stage('Run Ansible') {
                steps {
                    script {
